@@ -14,11 +14,13 @@ contract FundMe
 
     uint256 public constant MIN_USD = 5 * 1e18; // should also have 18 DP
 
+    // make variables private and write getter functions
+
     address[] private s_funders; // storage variables to start with s_(help in pointing out gas heavy tasks)
     mapping(address funder => uint256 amountFunded) private s_addressToAmountFunded;
 
     address private immutable i_owner ; //immutable(variables only set once) to start with i_
-    AggregatorV3Interface private s_priceFeed; // make variables private and write getter functions
+    AggregatorV3Interface private s_priceFeed; 
 
     constructor (address priceFeed)
     {
@@ -69,7 +71,7 @@ contract FundMe
         {
             revert FundMe__NotOwner(); // named errors are better
         }
-         _;
+         _; // IMP !!!
     }
 
     receive() external payable 

@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: MIT
+// //SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.18;
 
@@ -9,13 +9,16 @@ import {FundMe} from "../src/FundMe.sol";
 contract FundFundMe is Script
 {
     uint256 public constant FUND_VALUE = 0.05 ether;
+    uint256 public receivedAmount;
 
-    function fundFundMe(address _mostRecentDeployment) public payable
+    constructor() payable {
+        receivedAmount = msg.value; // should be >= FUND_VALUE
+    }
+
+    function fundFundMe(address _mostRecentDeployment) public /*payable*/ // how tf is this not payable and still working
     {
-        //vm.startBroadcast();
         FundMe(payable(_mostRecentDeployment)).fund{value:FUND_VALUE}();
-        //vm.stopBroadcast();
-        //console.log("Funded FundMe with %s",FUND_VALUE);
+        console.log("Funded FundMe with %s",FUND_VALUE);
     }
 
     function run() external
@@ -29,18 +32,11 @@ contract FundFundMe is Script
 
 contract WithdrawFundMe is Script
 {
-    function withdrawFundMe(address _mostRecentDeployment) public
+
+    function withdrawFundMe(address _mostRecentDeployment) public /*payable*/
     {
-        //vm.startBroadcast();
-        FundMe fundMe = FundMe(payable(_mostRecentDeployment));
-
-        console.log(address(fundMe).balance);
-
-        fundMe.withdraw();
-
-        console.log(address(fundMe).balance);
-
-        //vm.stopBroadcast();
+        FundMe(payable(_mostRecentDeployment)).withdraw();
+        console.log("Withdrew funds from FundMe ");
     }
 
     function run() external
@@ -49,5 +45,15 @@ contract WithdrawFundMe is Script
         vm.startBroadcast();
         withdrawFundMe(mostRecentDeployment);
         vm.stopBroadcast();
+    }
+
+    // this function is for testing purposes only
+    function WithdrawFundMeTEST(address _mostRecentDeployment) public
+    {
+        FundMe latestFundMe = FundMe(payable(_mostRecentDeployment));
+        address ownerOfFundMe = latestFundMe.getOwner();
+        vm.prank(ownerOfFundMe);
+        latestFundMe.withdraw();
+        console.log("Withdrew funds from FundMe(TEST ONLY FUNCTION) ");
     }
 }

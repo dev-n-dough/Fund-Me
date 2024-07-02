@@ -15,7 +15,7 @@ contract DeployFundMe is Script
         (address ethUsdPriceFeed) = helperConfig.activeNetworkConfig();
 
         vm.startBroadcast();
-        FundMe fundMe = new FundMe(ethUsdPriceFeed);
+        FundMe fundMe  = new FundMe(ethUsdPriceFeed);
         vm.stopBroadcast();
         return fundMe;
     }
