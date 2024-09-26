@@ -9,7 +9,7 @@ import {DeployFundMe} from "../../script/DeployFundMe.s.sol"; // importing scrip
 
 contract TestFundMe is Test
 {
-    FundMe fundMe; // in bigger scope - so that it is used by other functions also
+    FundMe fundMe; // in bigger scope - so that it is used by other functions also 
 
     uint256 constant SEND_VALUE = 0.1 ether;
     uint256 constant INITIAL_AMOUNT = 15 ether;
@@ -39,7 +39,7 @@ contract TestFundMe is Test
     
     function testPriceFeedVersionIsAccurate() external view
     {
-        uint256 version = fundMe.getVersion(); // had to define getVersion in FundMe , else create an instance of FundMe.PriceConverter priceConverter = new FundMe.PriceConverter(); and use priceConverter.getVersion() .abi
+        uint256 version = fundMe.getVersion(); // had to define getVersion in FundMe , else create an instance of FundMe.PriceConverter priceConverter = new FundMe.PriceConverter(); and use priceConverter.getVersion() .
         assertEq(version,4);
     }
     function testFundFailsWithoutEnoughEth() public
@@ -88,6 +88,7 @@ contract TestFundMe is Test
         
         //Act
 
+        // READ THE FOLLOWING COMMENTS ALSO ❗️
 
         /*
         uint256 gasStart =gasleft();
@@ -155,7 +156,3 @@ contract TestFundMe is Test
         assert(startingFundMeBalance + startingOwnerBalance == fundMe.getOwner().balance);
     }
 }
-
-
-
-// we -> TestFundMe -> FundMe : hence TestFundMe(which is address(this)) is owner of FundMe

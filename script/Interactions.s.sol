@@ -15,7 +15,7 @@ contract FundFundMe is Script
         receivedAmount = msg.value; // should be >= FUND_VALUE
     }
 
-    function fundFundMe(address _mostRecentDeployment) public /*payable*/ // how tf is this not payable and still working
+    function fundFundMe(address _mostRecentDeployment) public /*payable*/ // how tf is this not payable and still working // lol because it is sending eth and not receiving it. the constructor is payable
     {
         FundMe(payable(_mostRecentDeployment)).fund{value:FUND_VALUE}();
         console.log("Funded FundMe with %s",FUND_VALUE);
@@ -33,7 +33,7 @@ contract FundFundMe is Script
 contract WithdrawFundMe is Script
 {
 
-    function withdrawFundMe(address _mostRecentDeployment) public /*payable*/
+    function withdrawFundMe(address _mostRecentDeployment) public 
     {
         FundMe(payable(_mostRecentDeployment)).withdraw();
         console.log("Withdrew funds from FundMe ");

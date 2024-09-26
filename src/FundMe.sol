@@ -9,7 +9,7 @@ error FundMe__NotOwner();
 
 contract FundMe
 {
-
+    // PriceConverter priceConverter;
     using PriceConverter for uint256;
 
     uint256 public constant MIN_USD = 5 * 1e18; // should also have 18 DP
@@ -26,11 +26,12 @@ contract FundMe
     {
         i_owner = msg.sender;
         s_priceFeed = AggregatorV3Interface(priceFeed);
+        // priceConverter = new PriceConverter();
     }
 
     function fund() public payable //payable keyword imp
     {
-        require(msg.value.getConversionRate(s_priceFeed) >= MIN_USD,"didn't send enough money"); // these funds are given to this contract , hence can be accessed using address(this).balance
+        require(/* priceConverter.getConversionRate(msg.value , s_priceFeed) */ msg.value.getConversionRate(s_priceFeed)>= MIN_USD,"didn't send enough money"); // these funds are given to this contract , hence can be accessed using address(this).balance
 
         s_funders.push(msg.sender);
         s_addressToAmountFunded[msg.sender] += msg.value;// this is just a way to keep track of the funds , they arent actually stored here
